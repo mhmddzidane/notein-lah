@@ -1,12 +1,10 @@
-import Button from "../components/Button";
-import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
-import { RootState } from "../redux/store";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../redux/apiCall";
-import { error } from "console";
-import { ToastContainer, toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import Button from "../components/Button";
 import Loading from "../components/Loading";
+import { login } from "../redux/apiCall";
+import { RootState } from "../redux/store";
 
 const Login = () => {
   const [email, setEmail] = useState("");
