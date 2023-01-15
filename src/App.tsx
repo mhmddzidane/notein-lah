@@ -1,5 +1,14 @@
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter,
+  createBrowserRouter,
+  Navigate,
+  Outlet,
+  Route,
+  RouterProvider,
+  Routes,
+} from "react-router-dom";
 import Home from "./pages/Home";
+import LayoutPage from "./pages/LayoutPage";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 
@@ -11,6 +20,17 @@ function App() {
     children: any;
   }
 
+  const Layout = () => {
+    return (
+      <div className="flex">
+        <LayoutPage />
+        <div>
+          <Outlet />
+        </div>
+      </div>
+    );
+  };
+
   const ProtectedRoute = ({ user, children }: RouteProps) => {
     if (!user) {
       return <Navigate to="/login" replace />;
@@ -19,27 +39,35 @@ function App() {
     return children;
   };
 
+  const router = createBrowserRouter([
+    {
+      path: "/login",
+      element: token ? <Navigate to="/" /> : <Login />,
+    },
+    {
+      path: "/register",
+      element: token ? <Navigate to="/" /> : <Register />,
+    },
+    {
+      path: "/",
+      element: (
+        <ProtectedRoute user={token}>
+          <Layout />
+        </ProtectedRoute>
+      ),
+      children: [
+        {
+          path: "/",
+          element: <Home />,
+        },
+      ],
+    },
+  ]);
+
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route
-          path="/login"
-          element={token ? <Navigate to="/" /> : <Login />}
-        ></Route>
-        <Route
-          path="/register"
-          element={token ? <Navigate to="/" /> : <Register />}
-        ></Route>
-        <Route
-          path="/"
-          element={
-            <ProtectedRoute user={token}>
-              <Home />
-            </ProtectedRoute>
-          }
-        ></Route>
-      </Routes>
-    </BrowserRouter>
+    <div>
+      <RouterProvider router={router} />
+    </div>
   );
 }
 

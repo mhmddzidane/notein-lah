@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import Button from "../components/Button";
+import Button from "../components/Buttons/Button";
 import Loading from "../components/Loading";
 import { login } from "../redux/apiCall";
 import { RootState } from "../redux/store";
@@ -14,7 +13,6 @@ const Login = () => {
   const { isFetching, error, success } = useSelector(
     (state: RootState) => state.user
   );
-  const navigate = useNavigate();
 
   const handleLogin = (e: any) => {
     e.preventDefault();

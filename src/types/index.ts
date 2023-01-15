@@ -1,3 +1,3 @@
-export interface Counter {
-  quantity: number;
+export interface Tab {
+  activeTab: string;
 }

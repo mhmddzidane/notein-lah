@@ -1,8 +1,7 @@
-import React from "react";
-import Button from "../components/Button";
-import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import Button from "../components/Buttons/Button";
 import { register } from "../redux/apiCall";
 import { RootState } from "../redux/store";
 

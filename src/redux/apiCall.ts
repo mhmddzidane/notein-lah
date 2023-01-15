@@ -1,5 +1,8 @@
 import axios from "axios";
 import {
+  getUserError,
+  getUserStart,
+  getUserSuccess,
   loginFailure,
   loginStart,
   loginSuccess,
@@ -31,8 +34,21 @@ export const register = async (dispatch: any, user: any) => {
       user
     );
     dispatch(registerSuccess(res.data));
-    console.log(res.data);
   } catch (error: any) {
     dispatch(registerFailure(error.response.data.message));
+  }
+};
+
+export const getUser = async (dispatch: any, token: any) => {
+  dispatch(getUserStart());
+  try {
+    const res = await axios.get("https://notes-api.dicoding.dev/v1/users/me", {
+      headers: {
+        Authorization: `Bearer ${token.token}`,
+      },
+    });
+    dispatch(getUserSuccess(res.data));
+  } catch (error: any) {
+    dispatch(getUserError(error.response.data.message));
   }
 };

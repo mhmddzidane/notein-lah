@@ -1,8 +1,8 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import counterRedux from "./counterRedux";
+import tabRedux from "./tabRedux";
 import userRedux from "./userRedux";
 
-const rootReducer = combineReducers({ user: userRedux, cart: counterRedux });
+const rootReducer = combineReducers({ user: userRedux, tab: tabRedux });
 
 export const store = configureStore({
   reducer: rootReducer,
