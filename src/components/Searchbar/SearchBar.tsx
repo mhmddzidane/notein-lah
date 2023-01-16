@@ -1,5 +1,11 @@
 import "./searchbar.css";
-const SearchBar = () => {
+import { useState } from "react";
+
+interface SearchProps {
+  updateQuery: any;
+}
+
+const SearchBar = ({ updateQuery }: SearchProps) => {
   return (
     <div className="search">
       <div className="container">
@@ -8,6 +14,7 @@ const SearchBar = () => {
           className="input"
           name="text"
           type="text"
+          onChange={(e) => updateQuery(e.target.value)}
         />
         <div className="icon">
           <svg

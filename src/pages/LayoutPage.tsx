@@ -1,14 +1,14 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "../components/Buttons/Button";
 import Loading from "../components/Loading";
-import { RootState } from "../redux/store";
 import { changeTab } from "../redux/tabRedux";
 import { logoutSuccess } from "../redux/userRedux";
 
 const LayoutPage = () => {
   const [activeTab, setActiveTab] = useState("aktif");
-  const [logout, setLogout] = useState<boolean>(true);
+  const [logout, setLogout] = useState<boolean>(false);
+  const tab = useSelector((state: any) => state.tab.sideBar);
   const dispatch = useDispatch();
   const { isFetching, error, currentUser } = useSelector(
     (state: any) => state.user
@@ -24,7 +24,11 @@ const LayoutPage = () => {
   };
 
   return (
-    <div className="text-center flex flex-col sticky top-0 h-[100vh] bg-[#19191a] w-1/4 mr-5">
+    <div
+      className={`${
+        tab ? "flex absolute w-4/4" : "hidden"
+      } text-center md:flex flex-col sticky top-0 h-[100vh] bg-[#19191a] lg:w-1/4 `}
+    >
       <p className="text-3xl mt-10">Notin Aja</p>
 
       <p
@@ -58,8 +62,7 @@ const LayoutPage = () => {
       <div className="mt-auto pb-5">
         <p>Pengaturan</p>
         {logout && (
-          <div className="sign">
-            {" "}
+          <div className="sign" onClick={handleLogout}>
             <Button text="Logout" style="p-1 mt-2" />
           </div>
         )}

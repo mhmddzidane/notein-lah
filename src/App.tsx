@@ -1,11 +1,8 @@
 import {
-  BrowserRouter,
   createBrowserRouter,
   Navigate,
   Outlet,
-  Route,
   RouterProvider,
-  Routes,
 } from "react-router-dom";
 import Home from "./pages/Home";
 import LayoutPage from "./pages/LayoutPage";
@@ -22,9 +19,9 @@ function App() {
 
   const Layout = () => {
     return (
-      <div className="flex">
+      <div className="md:flex ">
         <LayoutPage />
-        <div>
+        <div className="p-1 w-full">
           <Outlet />
         </div>
       </div>

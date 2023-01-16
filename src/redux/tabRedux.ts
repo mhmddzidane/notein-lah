@@ -3,6 +3,7 @@ import { Tab } from "../types";
 
 const initialState: Tab = {
   activeTab: "aktif",
+  sideBar: false,
 };
 
 const tabSlice = createSlice({
@@ -12,8 +13,11 @@ const tabSlice = createSlice({
     changeTab: (state, action) => {
       state.activeTab = action.payload;
     },
+    mobileTab: (state, action) => {
+      state.sideBar = action.payload;
+    },
   },
 });
 
-export const { changeTab } = tabSlice.actions;
+export const { changeTab, mobileTab } = tabSlice.actions;
 export default tabSlice.reducer;

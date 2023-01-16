@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getNotesFail, getNotesStart, getNotesSuccess } from "./notesRedux";
 import {
   getUserError,
   getUserStart,
@@ -50,5 +51,20 @@ export const getUser = async (dispatch: any, token: any) => {
     dispatch(getUserSuccess(res.data));
   } catch (error: any) {
     dispatch(getUserError(error.response.data.message));
+  }
+};
+
+export const getNotes = async (dispatch: any, token: any) => {
+  dispatch(getNotesStart());
+  try {
+    const res = await axios.get("https://notes-api.dicoding.dev/v1/notes", {
+      headers: {
+        Authorization: `Bearer ${token.token}`,
+      },
+    });
+    dispatch(getNotesSuccess(res.data));
+    // console.log(res.data);
+  } catch (error: any) {
+    dispatch(getNotesFail());
   }
 };
