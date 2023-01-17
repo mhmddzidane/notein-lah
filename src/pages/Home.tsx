@@ -1,24 +1,33 @@
-import { useDispatch, useSelector } from "react-redux";
-import SearchBar from "../components/Searchbar/SearchBar";
 import { useEffect, useState } from "react";
-import { getNotes, getUser } from "../redux/apiCall";
-import { mobileTab } from "../redux/tabRedux";
-import Loading from "../components/Loading";
+import { useDispatch, useSelector } from "react-redux";
 import CatatanAktif from "../components/CatatanAktif";
 import CatatanArsip from "../components/CatatanArsip";
+import Loading from "../components/Loading";
 import TambahCatatan from "../components/TambahCatatan";
+import { getArchivedNotes, getNotes, getUser } from "../redux/apiCall";
+import { mobileTab } from "../redux/tabRedux";
 
 const Home = () => {
   const [sideBar, setSidebar] = useState<boolean>(false);
   const tab = useSelector((state: any) => state.tab.activeTab);
-  const { isFetching, notes, error } = useSelector((state: any) => state.notes);
+  const { isFetching, notes, archivedNotes, error, status, statusArchive } =
+    useSelector((state: any) => state.notes);
   const token = sessionStorage.getItem("token");
   const dispatch = useDispatch();
 
   useEffect(() => {
     getUser(dispatch, { token });
-    getNotes(dispatch, { token });
   }, [token]);
+
+  useEffect(() => {
+    getNotes(dispatch, { token });
+    getArchivedNotes(dispatch, { token });
+  }, [status]);
+
+  useEffect(() => {
+    getArchivedNotes(dispatch, { token });
+    getNotes(dispatch, { token });
+  }, [statusArchive]);
 
   useEffect(() => {
     dispatch(mobileTab(sideBar));
@@ -50,7 +59,11 @@ const Home = () => {
       {tab == "arsip" && (
         <div>
           <p className="text-4xl">Catatan Arsip</p>
-          <CatatanArsip />
+          {isFetching ? (
+            <Loading />
+          ) : (
+            <CatatanArsip notes={archivedNotes?.data} />
+          )}
         </div>
       )}
 

@@ -16,13 +16,10 @@ const Register = () => {
     (state: RootState) => state.user
   );
 
-  console.log(success);
-
   const handleRegister = (e: any) => {
     e.preventDefault();
     register(dispatch, { email, name, password });
   };
-  console.log(isFetching);
 
   useEffect(() => {
     if (success == true) {
@@ -31,7 +28,7 @@ const Register = () => {
   }, [success]);
 
   return (
-    <div className="flex flex-col items-center py-28">
+    <div className="flex flex-col items-center text-center px-3 py-28">
       <h2 className="font-bold text-4xl">Notein Lah</h2>
 
       <p className="font-semibold">biar ga lupa</p>

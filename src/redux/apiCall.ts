@@ -1,5 +1,18 @@
 import axios from "axios";
-import { getNotesFail, getNotesStart, getNotesSuccess } from "./notesRedux";
+import {
+  getArchivedNotesFail,
+  getArchivedNotesStart,
+  getArchivedNotesSuccess,
+  getNotesFail,
+  getNotesStart,
+  getNotesSuccess,
+  PostArchivedNotesFail,
+  PostArchivedNotesStart,
+  PostArchivedNotesSuccess,
+  PostUnarchivedNotesFail,
+  PostUnarchivedNotesStart,
+  PostUnarchivedNotesSuccess,
+} from "./notesRedux";
 import {
   getUserError,
   getUserStart,
@@ -20,6 +33,7 @@ export const login = async (dispatch: any, user: any) => {
       user
     );
     dispatch(loginSuccess(res.data));
+
     sessionStorage.setItem("token", res.data.data.accessToken);
     window.location.href = "/";
   } catch (error: any) {
@@ -66,5 +80,69 @@ export const getNotes = async (dispatch: any, token: any) => {
     // console.log(res.data);
   } catch (error: any) {
     dispatch(getNotesFail());
+  }
+};
+
+export const getArchivedNotes = async (dispatch: any, token: any) => {
+  dispatch(getArchivedNotesStart());
+  try {
+    const res = await axios.get(
+      "https://notes-api.dicoding.dev/v1/notes/archived",
+      {
+        headers: {
+          Authorization: `Bearer ${token.token}`,
+        },
+      }
+    );
+    dispatch(getArchivedNotesSuccess(res.data));
+    // console.log(res.data);
+  } catch (error: any) {
+    dispatch(getArchivedNotesFail());
+  }
+};
+
+export const postArchivedNotes = async (dispatch: any, token: any, id: any) => {
+  dispatch(PostArchivedNotesStart());
+
+  try {
+    const res = await axios.post(
+      `https://notes-api.dicoding.dev/v1/notes/${id.id}/archive`,
+      JSON.stringify(id),
+      {
+        headers: {
+          Authorization: `Bearer ${token.token}`,
+        },
+      }
+    );
+    dispatch(PostArchivedNotesSuccess(res.data));
+    // console.log(res.data);
+  } catch (error: any) {
+    dispatch(PostArchivedNotesFail());
+    console.log(error);
+  }
+};
+
+export const postUnarchivedNotes = async (
+  dispatch: any,
+  token: any,
+  id: any
+) => {
+  dispatch(PostUnarchivedNotesStart());
+
+  try {
+    const res = await axios.post(
+      `https://notes-api.dicoding.dev/v1/notes/${id.id}/unarchive`,
+      JSON.stringify(id),
+      {
+        headers: {
+          Authorization: `Bearer ${token.token}`,
+        },
+      }
+    );
+    dispatch(PostUnarchivedNotesSuccess(res.data));
+    // console.log(res.data);
+  } catch (error: any) {
+    dispatch(PostUnarchivedNotesFail());
+    console.log(error);
   }
 };
