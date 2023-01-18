@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import CatatanAktif from "../components/CatatanAktif";
 import CatatanArsip from "../components/CatatanArsip";
 import Loading from "../components/Loading";
@@ -14,6 +15,7 @@ const Home = () => {
     useSelector((state: any) => state.notes);
   const token = sessionStorage.getItem("token");
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     getUser(dispatch, { token });
@@ -36,6 +38,7 @@ const Home = () => {
   useEffect(() => {
     if (error) {
       sessionStorage.removeItem("token");
+      navigate("/");
     }
   }, [error]);
 

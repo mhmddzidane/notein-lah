@@ -1,4 +1,5 @@
 import axios from "axios";
+import { title } from "process";
 import {
   getArchivedNotesFail,
   getArchivedNotesStart,
@@ -9,6 +10,9 @@ import {
   PostArchivedNotesFail,
   PostArchivedNotesStart,
   PostArchivedNotesSuccess,
+  PostNotesFail,
+  PostNotesStart,
+  PostNotesSuccess,
   PostUnarchivedNotesFail,
   PostUnarchivedNotesStart,
   PostUnarchivedNotesSuccess,
@@ -143,6 +147,36 @@ export const postUnarchivedNotes = async (
     // console.log(res.data);
   } catch (error: any) {
     dispatch(PostUnarchivedNotesFail());
+    console.log(error);
+  }
+};
+
+export const postNotes = async (
+  dispatch: any,
+  token: any,
+  titleText: any,
+  bodyText: any
+) => {
+  dispatch(PostNotesStart());
+  // console.log(titleText);
+
+  try {
+    const res = await axios.post(
+      `https://notes-api.dicoding.dev/v1/notes`,
+      {
+        title: titleText.titleText,
+        body: bodyText.bodyText,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token.token}`,
+        },
+      }
+    );
+    dispatch(PostNotesSuccess(res.data));
+    // console.log(res.data);
+  } catch (error: any) {
+    dispatch(PostNotesFail());
     console.log(error);
   }
 };

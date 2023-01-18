@@ -56,6 +56,17 @@ const notesSlice = createSlice({
       state.isFetching = false;
       state.postError = true;
     },
+    PostNotesStart: (state) => {
+      state.isFetching = true;
+    },
+    PostNotesSuccess: (state, action) => {
+      state.isFetching = false;
+      state.statusArchive = action.payload;
+    },
+    PostNotesFail: (state) => {
+      state.isFetching = false;
+      state.postError = true;
+    },
   },
 });
 
@@ -72,5 +83,8 @@ export const {
   PostUnarchivedNotesStart,
   PostUnarchivedNotesSuccess,
   PostUnarchivedNotesFail,
+  PostNotesStart,
+  PostNotesSuccess,
+  PostNotesFail,
 } = notesSlice.actions;
 export default notesSlice.reducer;
